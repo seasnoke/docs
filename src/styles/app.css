@@ -3,29 +3,50 @@
 @import 'fumadocs-ui/css/preset.css';
 
 @theme {
-  --color-background: #020617;
-  --color-foreground: #e5edf7;
-  --color-card: #07111f;
-  --color-card-foreground: #e5edf7;
-  --color-popover: #07111f;
-  --color-popover-foreground: #e5edf7;
+  --color-background: #f8fafc;
+  --color-foreground: #0f172a;
+  --color-card: #ffffff;
+  --color-card-foreground: #0f172a;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #0f172a;
   --color-primary: #3b82f6;
   --color-primary-foreground: #f8fafc;
-  --color-secondary: #0f172a;
-  --color-secondary-foreground: #dbeafe;
-  --color-muted: #0b1220;
-  --color-muted-foreground: #94a3b8;
-  --color-accent: #172554;
-  --color-accent-foreground: #dbeafe;
-  --color-border: #1e293b;
-  --color-input: #1e293b;
+  --color-secondary: #e2e8f0;
+  --color-secondary-foreground: #0f172a;
+  --color-muted: #f1f5f9;
+  --color-muted-foreground: #475569;
+  --color-accent: #dbeafe;
+  --color-accent-foreground: #1e3a8a;
+  --color-border: #cbd5e1;
+  --color-input: #cbd5e1;
   --color-ring: #60a5fa;
 }
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
   font-family: 'Lexend', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
     sans-serif;
+  --color-fd-background: #f8fafc;
+  --color-fd-foreground: #0f172a;
+  --color-fd-muted: #f1f5f9;
+  --color-fd-muted-foreground: #475569;
+  --color-fd-popover: #ffffff;
+  --color-fd-popover-foreground: #0f172a;
+  --color-fd-card: #ffffff;
+  --color-fd-card-foreground: #0f172a;
+  --color-fd-border: #cbd5e1;
+  --color-fd-primary: #3b82f6;
+  --color-fd-primary-foreground: #f8fafc;
+  --color-fd-secondary: #e2e8f0;
+  --color-fd-secondary-foreground: #0f172a;
+  --color-fd-accent: #dbeafe;
+  --color-fd-accent-foreground: #1e3a8a;
+  --color-fd-ring: #60a5fa;
+  --color-fd-overlay: rgb(15 23 42 / 0.28);
+}
+
+.dark {
+  color-scheme: dark;
   --color-fd-background: #020617;
   --color-fd-foreground: #e5edf7;
   --color-fd-muted: #0b1220;
@@ -45,13 +66,9 @@
   --color-fd-overlay: rgb(0 0 0 / 0.45);
 }
 
-.dark {
-  color-scheme: dark;
-}
-
 html {
   scrollbar-gutter: stable;
-  background: #020617;
+  background: var(--color-fd-background);
 }
 
 html > body[data-scroll-locked] {
@@ -62,11 +79,17 @@ html > body[data-scroll-locked] {
 body {
   min-height: 100vh;
   background:
-    radial-gradient(circle at top left, rgb(37 99 235 / 0.16), transparent 28rem),
-    linear-gradient(180deg, #020617 0%, #07111f 54%, #020617 100%);
+    radial-gradient(circle at top left, rgb(59 130 246 / 0.12), transparent 28rem),
+    linear-gradient(180deg, #f8fafc 0%, #eef4ff 54%, #f8fafc 100%);
   color: var(--color-fd-foreground);
   font-family: 'Lexend', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
     sans-serif;
+}
+
+.dark body {
+  background:
+    radial-gradient(circle at top left, rgb(37 99 235 / 0.16), transparent 28rem),
+    linear-gradient(180deg, #020617 0%, #07111f 54%, #020617 100%);
 }
 
 ::selection {
@@ -78,11 +101,18 @@ body {
 [data-radix-scroll-area-viewport] {
   --tw-prose-body: var(--color-fd-muted-foreground);
   --tw-prose-headings: var(--color-fd-foreground);
-  --tw-prose-links: #93c5fd;
+  --tw-prose-links: #2563eb;
   --tw-prose-bold: var(--color-fd-foreground);
+  --tw-prose-code: #1d4ed8;
+  --tw-prose-quotes: #1e3a8a;
+  --tw-prose-hr: var(--color-fd-border);
+}
+
+.dark .prose,
+.dark [data-radix-scroll-area-viewport] {
+  --tw-prose-links: #93c5fd;
   --tw-prose-code: #bfdbfe;
   --tw-prose-quotes: #dbeafe;
-  --tw-prose-hr: var(--color-fd-border);
 }
 
 :where(h1, h2, h3, h4, h5, h6),
