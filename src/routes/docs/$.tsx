@@ -11,7 +11,7 @@ import {
   MarkdownCopyButton,
   ViewOptionsPopover,
 } from 'fumadocs-ui/layouts/docs/page';
-import { baseOptions, GitHubFooterLink } from '@/lib/layout.shared';
+import { baseOptions, SidebarFooterControls } from '@/lib/layout.shared';
 import { gitConfig } from '@/lib/shared';
 import { staticFunctionMiddleware } from '@tanstack/start-static-server-functions';
 import { useFumadocsLoader } from 'fumadocs-core/source/client';
@@ -87,7 +87,7 @@ function Page() {
   const { pageTree, path, markdownUrl } = useFumadocsLoader(Route.useLoaderData());
 
   return (
-    <DocsLayout {...baseOptions()} tree={pageTree} sidebar={{ footer: <GitHubFooterLink /> }}>
+    <DocsLayout {...baseOptions()} tree={pageTree} sidebar={{ footer: <SidebarFooterControls /> }}>
       <Link to={markdownUrl} hidden />
       <Suspense>{clientLoader.useContent(path, { markdownUrl, path })}</Suspense>
     </DocsLayout>
