@@ -85,6 +85,14 @@ body {
   --tw-prose-hr: var(--color-fd-border);
 }
 
+:where(h1, h2, h3, h4, h5, h6),
+:where(.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6),
+:where([data-radix-scroll-area-viewport] h1, [data-radix-scroll-area-viewport] h2, [data-radix-scroll-area-viewport] h3, [data-radix-scroll-area-viewport] h4, [data-radix-scroll-area-viewport] h5, [data-radix-scroll-area-viewport] h6) {
+  font-family: 'Source Serif 4', ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
 :where(code, kbd, samp, pre),
 :where(.prose code, .prose pre, .prose kbd, .prose samp) {
   font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
@@ -94,10 +102,10 @@ body {
 .seasnoke-logo {
   display: inline-block;
   user-select: none;
-  font-family: 'Lexend', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    sans-serif;
+  font-family: 'Source Serif 4', ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
+  font-style: italic;
   font-weight: 700;
-  font-size: 1.35rem;
+  font-size: 1.6rem;
   line-height: 1;
   letter-spacing: 0;
 }
