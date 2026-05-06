@@ -18,9 +18,10 @@ export default defineConfig({
       'fumadocs-ui/layouts/docs/page',
       'fumadocs-ui/layouts/home',
       'fumadocs-ui/provider/tanstack',
+      'mermaid',
       'tailwind-merge',
     ],
-    exclude: ['lucide-react', 'mermaid'],
+    exclude: ['lucide-react'],
   },
   plugins: [
     mdx(await import('./source.config')),
