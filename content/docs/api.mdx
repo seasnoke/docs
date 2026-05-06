@@ -20,10 +20,11 @@ The API service is a Rust Actix Web application. It initializes PostgreSQL throu
 
 `POST /api/runs`
 
-```json
-{
-  "repo_url": "https://github.com/example/project",
-  "prompt": "Implement the requested change and verify it."
+```rust
+#[derive(Debug, serde::Deserialize)]
+pub struct CreateRunRequest {
+    pub repo_url: String,
+    pub prompt: String,
 }
 ```
 
@@ -31,11 +32,12 @@ The API inserts a `pending` run row, creates three task messages, and pushes the
 
 Successful responses use `202 Accepted`:
 
-```json
-{
-  "id": "run-uuid",
-  "status": "pending",
-  "task_count": 3
+```rust
+#[derive(Debug, serde::Serialize)]
+pub struct CreateRunResponse {
+    pub id: uuid::Uuid,
+    pub status: String,
+    pub task_count: usize,
 }
 ```
 
@@ -45,10 +47,9 @@ Successful responses use `202 Accepted`:
 
 The stream endpoint first checks that the run exists. It then subscribes to Redis channel `seasnoke:logs:{run_id}` and forwards messages as Server-Sent Events:
 
-```text
-data: [SYSTEM] Thinking... (waiting for Claude 3.5 Sonnet)
-
-data: TASK_RESULT:{task_id}:SUCCEEDED:{base64_diff}
+```rust
+let channel = format!("seasnoke:logs:{run_id}");
+let sse = format!("data: {payload}\n\n");
 ```
 
 The endpoint sends keepalive comments every 30 seconds and returns `404` when the run does not exist.

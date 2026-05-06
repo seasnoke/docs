@@ -25,13 +25,15 @@ The current project is split across four local repositories:
 
 ## Local services
 
-The API defaults to:
+The API reads these defaults:
 
-```bash
-DATABASE_URL=postgres://seasnoke:seasnoke@127.0.0.1:5432/seasnoke
-REDIS_URL=redis://127.0.0.1:6379
-HOST=127.0.0.1
-PORT=8080
+```rust
+let database_url = std::env::var("DATABASE_URL")
+    .unwrap_or_else(|_| "postgres://seasnoke:seasnoke@127.0.0.1:5432/seasnoke".into());
+let redis_url = std::env::var("REDIS_URL")
+    .unwrap_or_else(|_| "redis://127.0.0.1:6379".into());
+let host = std::env::var("HOST").unwrap_or_else(|_| "127.0.0.1".into());
+let port = std::env::var("PORT").unwrap_or_else(|_| "8080".into());
 ```
 
 The worker also uses `REDIS_URL` and requires `ANTHROPIC_API_KEY`.

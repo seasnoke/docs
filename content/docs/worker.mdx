@@ -10,8 +10,12 @@ The worker is a Rust process that waits for run tasks, executes an agent loop in
 
 The worker blocks on:
 
-```text
-BRPOP seasnoke:tasks:pending 0
+```rust
+let (_, task_json): (String, String) = redis::cmd("BRPOP")
+    .arg("seasnoke:tasks:pending")
+    .arg(0)
+    .query_async(&mut conn)
+    .await?;
 ```
 
 Each task contains:
@@ -47,8 +51,9 @@ The agent loop calls Anthropic Messages API with model `claude-3-5-sonnet-202410
 
 The loop allows up to 15 iterations. On success, it stages sandbox changes, captures `git diff --staged`, base64-encodes it, and publishes:
 
-```text
-TASK_RESULT:{task_id}:SUCCEEDED:{base64_diff}
+```rust
+let result_msg = format!("TASK_RESULT:{}:SUCCEEDED:{}", task_id, diff_b64);
+conn.publish::<_, _, ()>(&log_channel, result_msg).await?;
 ```
 
 The worker then stops the sandbox and pushes the result JSON to `seasnoke:tasks:completed`.

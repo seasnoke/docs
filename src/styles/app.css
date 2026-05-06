@@ -24,6 +24,8 @@
 
 :root {
   color-scheme: dark;
+  font-family: 'Lexend', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    sans-serif;
   --color-fd-background: #020617;
   --color-fd-foreground: #e5edf7;
   --color-fd-muted: #0b1220;
@@ -63,6 +65,8 @@ body {
     radial-gradient(circle at top left, rgb(37 99 235 / 0.16), transparent 28rem),
     linear-gradient(180deg, #020617 0%, #07111f 54%, #020617 100%);
   color: var(--color-fd-foreground);
+  font-family: 'Lexend', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    sans-serif;
 }
 
 ::selection {
@@ -81,11 +85,19 @@ body {
   --tw-prose-hr: var(--color-fd-border);
 }
 
+:where(code, kbd, samp, pre),
+:where(.prose code, .prose pre, .prose kbd, .prose samp) {
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    'Liberation Mono', 'Courier New', monospace;
+}
+
 .seasnoke-logo {
   display: inline-block;
   user-select: none;
-  font-family: 'Source Serif 4', ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
-  font-style: italic;
+  font-family: 'Lexend', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    sans-serif;
   font-weight: 700;
+  font-size: 1.35rem;
+  line-height: 1;
   letter-spacing: 0;
 }

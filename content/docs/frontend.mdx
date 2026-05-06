@@ -28,10 +28,12 @@ The `web` README notes that dashboard data is mocked in `src/lib/mock-data.ts`; 
 
 The `app` repository is a smaller run console. It keeps run state in Zustand and subscribes to the API stream with `EventSource`.
 
-Its SSE hook defaults to:
+The browser subscribes to the Rust API stream:
 
-```ts
-const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8080';
+```rust
+pub fn run_stream_url(api_base: &str, run_id: &str) -> String {
+    format!("{api_base}/api/runs/{run_id}/stream")
+}
 ```
 
 The client parses these messages:
