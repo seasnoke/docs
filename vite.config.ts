@@ -9,6 +9,19 @@ export default defineConfig({
   server: {
     port: 3000,
   },
+  optimizeDeps: {
+    include: [
+      'fumadocs-core/search/client',
+      'fumadocs-core/source/client',
+      'fumadocs-ui/components/dialog/search',
+      'fumadocs-ui/layouts/docs',
+      'fumadocs-ui/layouts/docs/page',
+      'fumadocs-ui/layouts/home',
+      'fumadocs-ui/provider/tanstack',
+      'tailwind-merge',
+    ],
+    exclude: ['lucide-react'],
+  },
   plugins: [
     mdx(await import('./source.config')),
     tailwindcss(),

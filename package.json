@@ -1,7 +1,8 @@
 {
-  "name": "docs",
+  "name": "seasnoke-docs",
   "private": true,
   "type": "module",
+  "packageManager": "pnpm@10.30.3",
   "sideEffects": false,
   "scripts": {
     "dev": "vite dev",

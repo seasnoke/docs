@@ -15,22 +15,40 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'Fumadocs on TanStack Start',
+        title: 'SeaSnoke Docs',
+      },
+      {
+        name: 'description',
+        content: 'Documentation for SeaSnoke.',
       },
     ],
-    links: [{ rel: 'stylesheet', href: appCss }],
+    links: [
+      { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@1,700&display=swap',
+      },
+      { rel: 'stylesheet', href: appCss },
+    ],
   }),
   component: RootComponent,
 });
 
 function RootComponent() {
   return (
-    <html suppressHydrationWarning>
+    <html className="dark" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
       <body className="flex flex-col min-h-screen">
-        <RootProvider search={{ SearchDialog }}>
+        <RootProvider
+          search={{ SearchDialog }}
+          theme={{
+            defaultTheme: 'dark',
+            enableSystem: false,
+          }}
+        >
           <Outlet />
         </RootProvider>
         <Scripts />

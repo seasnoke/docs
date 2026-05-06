@@ -1,0 +1,54 @@
+---
+title: API
+description: Run creation, task enqueueing, and live Server-Sent Events.
+icon: Braces
+---
+
+The API service is a Rust Actix Web application. It initializes PostgreSQL through SQLx, connects to Redis, enables permissive CORS for local clients, and registers the `/api` routes.
+
+## Environment
+
+| Variable | Default | Purpose |
+| --- | --- | --- |
+| `DATABASE_URL` | `postgres://seasnoke:seasnoke@127.0.0.1:5432/seasnoke` | PostgreSQL connection string. |
+| `REDIS_URL` | `redis://127.0.0.1:6379` | Redis queue and Pub/Sub connection string. |
+| `HOST` | `127.0.0.1` | HTTP bind host. |
+| `PORT` | `8080` | HTTP bind port. |
+| `RUST_LOG` | `seasnoke_api=info,sqlx=warn` | Tracing filter. |
+
+## Create a run
+
+`POST /api/runs`
+
+```json
+{
+  "repo_url": "https://github.com/example/project",
+  "prompt": "Implement the requested change and verify it."
+}
+```
+
+The API inserts a `pending` run row, creates three task messages, and pushes them to `seasnoke:tasks:pending`.
+
+Successful responses use `202 Accepted`:
+
+```json
+{
+  "id": "run-uuid",
+  "status": "pending",
+  "task_count": 3
+}
+```
+
+## Stream a run
+
+`GET /api/runs/{id}/stream`
+
+The stream endpoint first checks that the run exists. It then subscribes to Redis channel `seasnoke:logs:{run_id}` and forwards messages as Server-Sent Events:
+
+```text
+data: [SYSTEM] Thinking... (waiting for Claude 3.5 Sonnet)
+
+data: TASK_RESULT:{task_id}:SUCCEEDED:{base64_diff}
+```
+
+The endpoint sends keepalive comments every 30 seconds and returns `404` when the run does not exist.

@@ -1,14 +1,10 @@
-# docs
+# SeaSnoke Docs
 
-This is a Tanstack Start application generated with
-[Create Fumadocs](https://github.com/fuma-nama/fumadocs).
+Documentation site for SeaSnoke, built with TanStack Start and Fumadocs.
 
 Run development server:
 
 ```bash
-npm run dev
-# or
+pnpm install
 pnpm dev
-# or
-yarn dev
 ```

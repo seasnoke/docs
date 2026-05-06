@@ -4,8 +4,14 @@ import { appName, gitConfig } from './shared';
 export function baseOptions(): BaseLayoutProps {
   return {
     nav: {
-      // JSX supported
-      title: appName,
+      title: (
+        <span className="seasnoke-logo" aria-label={appName}>
+          SeaSnoke
+        </span>
+      ),
+    },
+    themeSwitch: {
+      enabled: false,
     },
     githubUrl: `https://github.com/${gitConfig.user}/${gitConfig.repo}`,
   };

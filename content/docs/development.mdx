@@ -1,0 +1,59 @@
+---
+title: Development
+description: How to run and verify the current SeaSnoke repositories locally.
+icon: Terminal
+---
+
+Use `mise` for tool versions and `pnpm` for JavaScript package management.
+
+## Docs
+
+```bash
+cd docs
+pnpm install
+pnpm dev
+pnpm types:check
+pnpm build
+```
+
+The docs app is a TanStack Start and Fumadocs site. The root route redirects directly to `/docs`.
+
+## Web
+
+```bash
+cd web
+pnpm install
+pnpm dev
+pnpm build
+```
+
+The product UI uses Chakra UI, not Tailwind CSS.
+
+## API
+
+```bash
+cd api
+cargo run
+```
+
+Before running the API, start PostgreSQL and Redis, then apply `migrations/001_create_runs.sql` to create the `runs` table.
+
+## Worker
+
+```bash
+cd worker
+export ANTHROPIC_API_KEY=...
+cargo run
+```
+
+The worker needs Redis and host support for microsandbox/KVM. If `/dev/kvm` is not accessible, sandbox creation will fail and the worker will publish a KVM diagnostic to the run stream.
+
+## App
+
+```bash
+cd app
+npm install
+npm run dev
+```
+
+Set `VITE_API_URL` when the API is not running at `http://127.0.0.1:8080`.

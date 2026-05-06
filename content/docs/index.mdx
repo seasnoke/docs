@@ -1,31 +1,41 @@
 ---
-title: Hello World
-description: Your favourite docs framework.
-icon: Rocket
+title: SeaSnoke
+description: Agent-native development with parallel coding workers, a Rust API, and live run streaming.
+icon: BookOpen
 ---
 
-Hey there! Fumadocs is the docs framework that also works on Tanstack Start!
+SeaSnoke is an agent-native software development platform for running coding agents in parallel and inspecting their work as it happens.
 
-## Heading
+The current project is split across four local repositories:
 
-Hello World!
+| Repository | Role | Main stack |
+| --- | --- | --- |
+| `web` | Product website, dashboard, docs shell, settings, graph, and run detail UI. | TanStack Start, React 19, Chakra UI, React Flow |
+| `api` | Backend run creation and Server-Sent Events stream endpoint. | Rust, Actix Web, SQLx, PostgreSQL, Redis |
+| `worker` | Background worker that consumes queued tasks and runs agents in microVM sandboxes. | Rust, Redis, microsandbox, Anthropic Messages API |
+| `app` | Lightweight run console UI that creates runs, subscribes to SSE, and displays diffs/logs. | Vite, React, Zustand |
 
-<Cards>
-  <Card title="Learn more about Tanstack Start" href="https://tanstack.com/start" />
-  <Card title="Learn more about Fumadocs" href="https://fumadocs.dev" />
-</Cards>
+## How a run works
 
-### CodeBlock
+1. A client submits a repository URL and prompt to the API.
+2. The API creates a run row in PostgreSQL and enqueues three Redis task messages.
+3. A worker blocks on `seasnoke:tasks:pending`, creates an Alpine microsandbox for each task, and runs the agent loop.
+4. The worker publishes logs, task status, and base64-encoded diffs to `seasnoke:logs:{run_id}`.
+5. Clients subscribe to `/api/runs/{id}/stream` and update the UI from Server-Sent Events.
 
-```ts
-console.log('Hello World');
+## Local services
+
+The API defaults to:
+
+```bash
+DATABASE_URL=postgres://seasnoke:seasnoke@127.0.0.1:5432/seasnoke
+REDIS_URL=redis://127.0.0.1:6379
+HOST=127.0.0.1
+PORT=8080
 ```
 
-#### Table
+The worker also uses `REDIS_URL` and requires `ANTHROPIC_API_KEY`.
 
-| Head                            | Description                         |
-| ------------------------------- | ----------------------------------- |
-| `hello`                         | Hello World                         |
-| very **important**              | Hey                                 |
-| _Surprisingly_                  | Fumadocs                            |
-| very long text that looks weird | hello world hello world hello world |
+## Current scope
+
+The product UI has polished demo surfaces and mocked dashboard data. The API and worker contain the live run pipeline: run creation, task queueing, Redis Pub/Sub streaming, sandbox execution, Anthropic calls, and diff extraction.
