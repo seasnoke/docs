@@ -1,0 +1,23 @@
+---
+title: Runs
+description: Monitor and interact with agent runs.
+icon: Play
+---
+
+## List Runs
+
+```http
+GET /v1/runs?task_id=task_123&status=succeeded
+```
+
+## Get Run Logs
+
+```http
+GET /v1/runs/{run_id}/logs
+```
+
+## Get Run Diff
+
+```http
+GET /v1/runs/{run_id}/diff
+```

@@ -1,0 +1,27 @@
+---
+title: Task Orchestration
+description: Manage complex workflows with dependencies, retries, and conditional branching.
+icon: Layers
+---
+
+## Task Dependencies
+
+Tasks can depend on other tasks. SeaSnoke builds a DAG and executes tasks in topological order, parallelizing where possible.
+
+```yaml
+dependencies:
+  - task: setup-database
+  - task: generate-migrations
+    optional: true
+```
+
+## Retry Policies
+
+Configure automatic retries with exponential backoff for transient failures:
+
+```yaml
+retry:
+  max_attempts: 3
+  backoff: exponential
+  base_delay: 5s
+```

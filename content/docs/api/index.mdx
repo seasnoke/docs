@@ -1,0 +1,26 @@
+---
+title: Overview
+description: The SeaSnoke REST API enables programmatic access to tasks, runs, agents, and workspaces.
+icon: Braces
+---
+
+## Base URL
+
+```text
+https://api.seasnoke.dev/v1
+```
+
+## Content Type
+
+All requests and responses use JSON. Include the following header:
+
+```http
+Content-Type: application/json
+```
+
+## Rate Limits
+
+API requests are rate-limited per workspace.
+
+- 100 requests per minute for read operations.
+- 20 requests per minute for write operations.

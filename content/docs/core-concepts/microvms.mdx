@@ -1,0 +1,20 @@
+---
+title: MicroVM Isolation
+description: Secure, lightweight execution environments for every agent.
+icon: Shield
+---
+
+## Security Architecture
+
+Every agent runs inside a Firecracker microVM with no network access to your production systems. Each VM is provisioned with only the dependencies needed for the specific task and destroyed immediately after the agent completes.
+
+## Resource Limits
+
+Agents are constrained by CPU, memory, disk, and network quotas.
+
+```yaml
+cpu: 2 cores
+memory: 4GB
+disk: 10GB
+network: outbound only, no LAN access
+```

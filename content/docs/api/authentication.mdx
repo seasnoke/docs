@@ -1,0 +1,21 @@
+---
+title: Authentication
+description: Authenticate API requests using workspace API keys or OAuth 2.0.
+icon: Key
+---
+
+## API Keys
+
+Include your API key in the Authorization header:
+
+```http
+Authorization: Bearer sk_live_xxxxxxxxxxxx
+```
+
+## OAuth 2.0
+
+For integrations requiring user consent, SeaSnoke supports OAuth 2.0 with PKCE:
+
+```http
+GET https://auth.seasnoke.dev/oauth/authorize?response_type=code&client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&scope=tasks:read runs:write
+```

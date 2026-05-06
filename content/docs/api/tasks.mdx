@@ -1,0 +1,33 @@
+---
+title: Tasks
+description: Create, list, and manage tasks via the REST API.
+icon: ListChecks
+---
+
+## Create a Task
+
+```http
+POST /v1/tasks
+```
+
+```json
+{
+  "title": "Add rate limiting",
+  "description": "Implement Redis-backed rate limiter",
+  "agents": 3,
+  "strategy": "parallel",
+  "repository": "github.com/acme/api"
+}
+```
+
+## List Tasks
+
+```http
+GET /v1/tasks?status=running&limit=10
+```
+
+## Get Task
+
+```http
+GET /v1/tasks/{task_id}
+```

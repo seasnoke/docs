@@ -1,43 +1,27 @@
 ---
-title: SeaSnoke
-description: Agent-native development with parallel coding workers, a Rust API, and live run streaming.
+title: Introduction
+description: What SeaSnoke is and how parallel AI coding agents fit into your workflow.
 icon: BookOpen
 ---
 
-SeaSnoke is an agent-native software development platform for running coding agents in parallel and inspecting their work as it happens.
+SeaSnoke is an agent-native coding platform that runs isolated AI agents in secure microVMs, enabling teams to explore multiple implementation paths in parallel and merge only validated, proven changes.
 
-The current project is split across four local repositories:
+## What is SeaSnoke?
 
-| Repository | Role | Main stack |
-| --- | --- | --- |
-| `web` | Product website, dashboard, docs shell, settings, graph, and run detail UI. | TanStack Start, React 19, Chakra UI, React Flow |
-| `api` | Backend run creation and Server-Sent Events stream endpoint. | Rust, Actix Web, SQLx, PostgreSQL, Redis |
-| `worker` | Background worker that consumes queued tasks and runs agents in microVM sandboxes. | Rust, Redis, microsandbox, Anthropic Messages API |
-| `app` | Lightweight run console UI that creates runs, subscribes to SSE, and displays diffs/logs. | Vite, React, Zustand |
+Traditional software development follows a linear path: write code, test, review, merge. SeaSnoke breaks this model by allowing multiple AI agents to work on the same task simultaneously in isolated environments, each exploring a different solution approach.
 
-## How a run works
+Think of it as having a team of senior engineers, each working on a separate branch, but automated, parallelized, and with full observability into every agent's progress.
 
-1. A client submits a repository URL and prompt to the API.
-2. The API creates a run row in PostgreSQL and enqueues three Redis task messages.
-3. A worker blocks on `seasnoke:tasks:pending`, creates an Alpine microsandbox for each task, and runs the agent loop.
-4. The worker publishes logs, task status, and base64-encoded diffs to `seasnoke:logs:{run_id}`.
-5. Clients subscribe to `/api/runs/{id}/stream` and update the UI from Server-Sent Events.
+## Key Features
 
-## Local services
+- **Parallel Agent Execution**: Run multiple AI coding agents simultaneously, each with its own strategy and implementation path.
+- **MicroVM Isolation**: Every agent runs in a lightweight, secure microVM with no access to your production infrastructure.
+- **Change Graph Visualization**: Visualize all parallel changes as a tree, with test results, diff stats, and merge confidence scores.
+- **Validated Merge Pipeline**: Only changes that pass full test suites, security scans, and human review are eligible for merge.
 
-The API reads these defaults:
+## How It Works
 
-```rust
-let database_url = std::env::var("DATABASE_URL")
-    .unwrap_or_else(|_| "postgres://seasnoke:seasnoke@127.0.0.1:5432/seasnoke".into());
-let redis_url = std::env::var("REDIS_URL")
-    .unwrap_or_else(|_| "redis://127.0.0.1:6379".into());
-let host = std::env::var("HOST").unwrap_or_else(|_| "127.0.0.1".into());
-let port = std::env::var("PORT").unwrap_or_else(|_| "8080".into());
-```
-
-The worker also uses `REDIS_URL` and requires `ANTHROPIC_API_KEY`.
-
-## Current scope
-
-The product UI has polished demo surfaces and mocked dashboard data. The API and worker contain the live run pipeline: run creation, task queueing, Redis Pub/Sub streaming, sandbox execution, Anthropic calls, and diff extraction.
+1. **Submit a Task**: Describe what you want built in natural language. SeaSnoke parses requirements and generates a task specification.
+2. **Agent Fleet Spawns**: Multiple agents are initialized in isolated microVMs, each with a different approach strategy.
+3. **Parallel Execution**: Agents write code, run tests, and iterate independently. You watch progress in real time.
+4. **Validation & Merge**: Successful agent outputs are validated, compared, and presented for your final review and merge.
