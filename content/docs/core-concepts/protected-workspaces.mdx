@@ -1,0 +1,23 @@
+---
+title: Protected Workspaces
+description: How SeaSnoke keeps generated work separated from production.
+icon: Shield
+---
+
+## Separation
+
+SeaSnoke keeps generated work separated from production systems. Agent changes are prepared in controlled workspaces and must pass review before they can be merged.
+
+## Access Controls
+
+Use repository permissions, workspace settings, and CI checks to decide what agents can access and what must be reviewed by a human.
+
+```yaml
+repositories:
+  default_branch: main
+  require_review: true
+checks:
+  test: required
+  lint: required
+  security: optional
+```

@@ -1,0 +1,11 @@
+{
+  "title": "API",
+  "icon": "Braces",
+  "defaultOpen": false,
+  "pages": [
+    "index",
+    "authentication",
+    "tasks",
+    "runs"
+  ]
+}

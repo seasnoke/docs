@@ -1,17 +1,17 @@
 ---
-title: Core Concepts
-description: Understand the fundamental concepts behind SeaSnoke's parallel agent architecture.
+title: Platform
+description: Understand the product concepts behind SeaSnoke workflows.
 icon: Cpu
 ---
 
-## Agent-Native Development
+## Task-Based Development
 
-SeaSnoke is built from the ground up for AI agents. Unlike traditional CI/CD tools that treat agents as external plugins, SeaSnoke's entire execution model is designed around autonomous coding agents as first-class citizens.
+SeaSnoke organizes AI coding work around tasks. A task captures the requested change, links to a repository, records the generated runs, and keeps validation results attached to the work.
 
-## Parallel Execution Model
+## Candidate Review
 
-When you submit a task, SeaSnoke does not assign it to a single agent. Instead, it spawns multiple agents in parallel, each with a different strategy, model, or approach parameter. This dramatically increases the probability of finding a high-quality solution.
+SeaSnoke can produce more than one candidate for a task. Reviewers compare the resulting diffs, tests, and notes before deciding what should move forward.
 
-## Validation-First Merge
+## Validated Merge
 
-No agent output is ever merged directly. Every proposed change goes through a rigorous validation pipeline: unit tests, integration tests, security scans, type checking, and linting. Only changes that pass all gates are presented for human review.
+Generated changes are not merged directly. They go through the checks you configure, then a human review step, before they become part of the target branch.

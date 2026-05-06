@@ -1,16 +1,16 @@
 ---
-title: Agent System
-description: How SeaSnoke's coding agents work, from initialization to output validation.
+title: Agents
+description: How SeaSnoke presents coding agent work to your team.
 icon: Bot
 ---
 
-## Agent Lifecycle
+## What Agents Do
 
-Each agent follows a well-defined lifecycle: initialization, planning, execution, validation, and reporting. Agents are stateless by default but can maintain context within a single task run.
+Agents turn task instructions into candidate code changes. SeaSnoke keeps their output tied to runs, checks, logs, and review decisions so your team can evaluate the work without switching tools.
 
-## Agent Types
+## Review Signals
 
-- **Architect**: Designs system structure, APIs, and data models before implementation.
-- **Implementer**: Writes code, tests, and documentation based on the architecture.
-- **Reviewer**: Analyzes code for bugs, security issues, and style violations.
-- **Test Engineer**: Generates comprehensive test suites, including edge cases and property tests.
+- **Diffs** show exactly what changed.
+- **Checks** show whether tests and quality gates passed.
+- **Notes** summarize the reasoning and tradeoffs behind a candidate.
+- **Status** makes it clear whether a run is queued, active, completed, or blocked.

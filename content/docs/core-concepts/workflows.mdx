@@ -1,0 +1,36 @@
+---
+title: Workflows
+description: Manage tasks, dependencies, retries, and validation.
+icon: Layers
+---
+
+## Task Dependencies
+
+Tasks can depend on other tasks. SeaSnoke uses those dependencies to decide what is ready to run and what still needs to wait.
+
+```mermaid
+flowchart TD
+  A[Open task] --> B[Prepare data change]
+  A --> C[Update API]
+  B --> D[Run integration tests]
+  C --> D
+  D --> E[Ready for review]
+```
+
+```yaml
+dependencies:
+  - task: setup-database
+  - task: generate-migrations
+    optional: true
+```
+
+## Retry Policies
+
+Configure retries for transient failures:
+
+```yaml
+retry:
+  max_attempts: 3
+  backoff: exponential
+  base_delay: 5s
+```

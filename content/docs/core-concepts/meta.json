@@ -1,0 +1,12 @@
+{
+  "title": "Platform",
+  "icon": "Cpu",
+  "defaultOpen": false,
+  "pages": [
+    "index",
+    "agents",
+    "review-graph",
+    "workflows",
+    "protected-workspaces"
+  ]
+}

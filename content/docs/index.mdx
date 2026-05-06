@@ -1,36 +1,36 @@
 ---
 title: Introduction
-description: What SeaSnoke is and how parallel AI coding agents fit into your workflow.
+description: What SeaSnoke is and how AI coding agents fit into your workflow.
 icon: BookOpen
 ---
 
-SeaSnoke is an agent-native coding platform that runs isolated AI agents in secure microVMs, enabling teams to explore multiple implementation paths in parallel and merge only validated, proven changes.
+SeaSnoke is an AI coding platform for assigning software tasks, comparing agent-generated changes, and merging only validated work.
 
 ## What is SeaSnoke?
 
-Traditional software development follows a linear path: write code, test, review, merge. SeaSnoke breaks this model by allowing multiple AI agents to work on the same task simultaneously in isolated environments, each exploring a different solution approach.
+SeaSnoke helps teams hand well-scoped work to coding agents without losing review control. You submit a task, SeaSnoke prepares candidate changes, runs validation, and presents the strongest results for human review.
 
-Think of it as having a team of senior engineers, each working on a separate branch, but automated, parallelized, and with full observability into every agent's progress.
+Think of it as a workbench for AI-assisted development: tasks, runs, diffs, checks, and review decisions in one place.
 
 ## Key Features
 
-- **Parallel Agent Execution**: Run multiple AI coding agents simultaneously, each with its own strategy and implementation path.
-- **MicroVM Isolation**: Every agent runs in a lightweight, secure microVM with no access to your production infrastructure.
-- **Change Graph Visualization**: Visualize all parallel changes as a tree, with test results, diff stats, and merge confidence scores.
-- **Validated Merge Pipeline**: Only changes that pass full test suites, security scans, and human review are eligible for merge.
+- **Task-Based Workflow**: Describe what needs to change and track it from assignment through review.
+- **Candidate Comparison**: Compare generated approaches by tests, diffs, and review status.
+- **Protected Execution**: Agent work runs away from production systems and is reviewed before merge.
+- **Validated Merge Flow**: Only changes that pass configured checks are presented as merge candidates.
 
 ## How It Works
 
 ```mermaid
 flowchart LR
-  A[Submit task] --> B[Spawn agent fleet]
-  B --> C[Run isolated attempts]
+  A[Submit task] --> B[Start run]
+  B --> C[Prepare candidate changes]
   C --> D[Validate results]
-  D --> E[Review winning changes]
+  D --> E[Review candidate]
   E --> F[Merge to repo]
 ```
 
 1. **Submit a Task**: Describe what you want built in natural language. SeaSnoke parses requirements and generates a task specification.
-2. **Agent Fleet Spawns**: Multiple agents are initialized in isolated microVMs, each with a different approach strategy.
-3. **Parallel Execution**: Agents write code, run tests, and iterate independently. You watch progress in real time.
+2. **Agents Prepare Changes**: SeaSnoke creates one or more candidate implementations for the task.
+3. **Validation Runs**: Tests, linting, and configured checks run against each candidate.
 4. **Validation & Merge**: Successful agent outputs are validated, compared, and presented for your final review and merge.

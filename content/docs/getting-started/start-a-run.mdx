@@ -1,0 +1,86 @@
+---
+title: Start a Run
+description: Submit a task and review the first generated result.
+icon: Zap
+---
+
+Submit a task, start a run, and review the generated result.
+
+## Prerequisites
+
+Before starting a run, ensure you have the following:
+
+- `seasnoke` CLI installed, version 0.8.2 or later.
+- Authenticated workspace with `seasnoke auth login`.
+- A git repository with at least one branch.
+- A clean working tree on the branch you want SeaSnoke to inspect.
+
+## Connect a Repository
+
+Use `seasnoke init` once per repository to connect it to your workspace:
+
+```bash
+cd my-project
+seasnoke init
+
+# Output:
+# [OK] Detected git repository: my-project (main)
+# [OK] Writing .seasnoke/config.toml
+# [OK] Registering workspace: acme-corp
+#
+# Repository connected. Run seasnoke task submit to start.
+```
+
+## Configuration
+
+The generated `.seasnoke/config.toml` stores repository defaults.
+
+```toml
+[workspace]
+name = "acme-corp"
+default_repo = "github.com/acme/api"
+
+[checks]
+test_runner = "auto"
+coverage_threshold = 80
+lint_on_completion = true
+security_scan = true
+
+[review]
+require_human_approval = true
+```
+
+## Verify Setup
+
+Run the built-in diagnostic to confirm your workspace is ready:
+
+```bash
+seasnoke check
+
+# Output:
+# [OK] Workspace: acme-corp (active)
+# [OK] Git: main branch clean, no uncommitted changes
+# [OK] Checks: eslint, jest detected
+#
+# Status: READY
+```
+
+## First Run
+
+Submit a dry-run task to verify the workflow without modifying your code:
+
+```bash
+seasnoke task submit --dry-run "Add tests for the billing date parser"
+
+# Output:
+# [12:01:01] INFO  Task created: task_01hxy
+# [12:01:02] INFO  Run started: run_01hxz
+# [12:01:15] INFO  Checks passed: 12/12 tests
+# [12:01:24] INFO  Candidate ready for review
+```
+
+## Next Steps
+
+- **Run a real task** with `seasnoke task submit`.
+- **Review generated changes** in the dashboard.
+- **Integrate CI/CD** using the GitHub Actions integration.

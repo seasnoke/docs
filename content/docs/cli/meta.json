@@ -1,0 +1,10 @@
+{
+  "title": "CLI",
+  "icon": "Terminal",
+  "defaultOpen": false,
+  "pages": [
+    "index",
+    "install",
+    "commands"
+  ]
+}

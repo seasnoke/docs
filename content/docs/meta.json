@@ -1,0 +1,9 @@
+{
+  "pages": [
+    "index",
+    "getting-started",
+    "api",
+    "cli",
+    "core-concepts"
+  ]
+}
