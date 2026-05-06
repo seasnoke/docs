@@ -20,7 +20,7 @@ export default defineConfig({
       'fumadocs-ui/provider/tanstack',
       'tailwind-merge',
     ],
-    exclude: ['lucide-react'],
+    exclude: ['lucide-react', 'mermaid'],
   },
   plugins: [
     mdx(await import('./source.config')),

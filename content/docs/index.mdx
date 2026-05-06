@@ -21,6 +21,15 @@ Think of it as having a team of senior engineers, each working on a separate bra
 
 ## How It Works
 
+```mermaid
+flowchart LR
+  A[Submit task] --> B[Spawn agent fleet]
+  B --> C[Run isolated attempts]
+  C --> D[Validate results]
+  D --> E[Review winning changes]
+  E --> F[Merge to repo]
+```
+
 1. **Submit a Task**: Describe what you want built in natural language. SeaSnoke parses requirements and generates a task specification.
 2. **Agent Fleet Spawns**: Multiple agents are initialized in isolated microVMs, each with a different approach strategy.
 3. **Parallel Execution**: Agents write code, run tests, and iterate independently. You watch progress in real time.

@@ -8,6 +8,15 @@ icon: Layers
 
 Tasks can depend on other tasks. SeaSnoke builds a DAG and executes tasks in topological order, parallelizing where possible.
 
+```mermaid
+flowchart TD
+  A[Prepare workspace] --> B[Generate migrations]
+  A --> C[Update API]
+  B --> D[Run integration tests]
+  C --> D
+  D --> E[Package candidate]
+```
+
 ```yaml
 dependencies:
   - task: setup-database

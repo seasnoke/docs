@@ -47,3 +47,16 @@ seasnoke runs watch
 # Or open the web dashboard
 seasnoke dashboard
 ```
+
+```mermaid
+sequenceDiagram
+  participant Dev as Developer
+  participant CLI as SeaSnoke CLI
+  participant Agents as Agent Fleet
+  participant Repo as Repository
+
+  Dev->>CLI: submit task.md
+  CLI->>Agents: start 3 isolated runs
+  Agents->>Repo: propose validated changes
+  CLI->>Dev: show results and diffs
+```
