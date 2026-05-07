@@ -123,6 +123,38 @@ function Page() {
       {...baseOptions()}
       tree={pageTree}
       tabMode="top"
+      tabs={[
+        {
+          title: 'Guides',
+          description: 'Install, run, and review work in SeaSnoke.',
+          url: '/docs',
+          urls: new Set([
+            '/docs',
+            '/docs/getting-started/installation',
+            '/docs/getting-started/quickstart',
+            '/docs/getting-started/start-a-run',
+            '/docs/cli',
+            '/docs/cli/install',
+            '/docs/cli/commands',
+            '/docs/core-concepts',
+            '/docs/core-concepts/agents',
+            '/docs/core-concepts/review-graph',
+            '/docs/core-concepts/workflows',
+            '/docs/core-concepts/protected-workspaces',
+          ]),
+        },
+        {
+          title: 'API',
+          description: 'Reference for SeaSnoke API authentication, tasks, and runs.',
+          url: '/docs/api',
+          urls: new Set([
+            '/docs/api',
+            '/docs/api/authentication',
+            '/docs/api/tasks',
+            '/docs/api/runs',
+          ]),
+        },
+      ]}
       sidebar={{ footer: <SidebarFooterControls /> }}
     >
       <Link to={markdownUrl} hidden />

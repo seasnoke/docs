@@ -1,8 +1,6 @@
 {
   "title": "Platform",
-  "description": "Product concepts behind SeaSnoke workflows.",
   "icon": "Cpu",
-  "root": true,
   "defaultOpen": false,
   "pages": [
     "index",
