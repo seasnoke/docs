@@ -4,9 +4,55 @@ description: The SeaSnoke CLI is your primary interface for managing agents, tas
 icon: Terminal
 ---
 
+## Installation
+
+Install the CLI with the script for your platform.
+
+```bash
+curl -fsSL https://install.seasnoke.dev | bash
+```
+
+On Windows PowerShell:
+
+```powershell
+irm https://install.seasnoke.dev/windows | iex
+```
+
+With Homebrew:
+
+```bash
+brew tap seasnoke/tap
+brew install seasnoke
+```
+
 ## Global Commands
 
 - `seasnoke auth` manages authentication.
 - `seasnoke task` creates and manages tasks.
 - `seasnoke runs` monitors agent runs.
 - `seasnoke workspace` manages workspaces.
+
+## Task Commands
+
+| Command | Description |
+| --- | --- |
+| `seasnoke task submit <file>` | Submit a new task from a markdown file. |
+| `seasnoke task list` | List all tasks in the workspace. |
+| `seasnoke task get <id>` | Get details of a specific task. |
+| `seasnoke task cancel <id>` | Cancel a running task. |
+
+## Run Commands
+
+| Command | Description |
+| --- | --- |
+| `seasnoke runs list` | List all agent runs. |
+| `seasnoke runs get <id>` | Get run details and status. |
+| `seasnoke runs logs <id>` | Stream logs from a run. |
+| `seasnoke runs diff <id>` | View the diff output of a run. |
+
+## Workspace Commands
+
+| Command | Description |
+| --- | --- |
+| `seasnoke workspace info` | Show current workspace details. |
+| `seasnoke workspace switch <id>` | Switch to a different workspace. |
