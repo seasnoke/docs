@@ -3,10 +3,41 @@ import { tanstackStart } from '@tanstack/react-start/plugin/vite';
 import { defineConfig } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
 import mdx from 'fumadocs-mdx/vite';
+import { readdir } from 'node:fs/promises';
+import { join } from 'node:path';
+
+async function getMdxSlugs(dir: string, prefix: string[] = []): Promise<string[][]> {
+  const entries = await readdir(dir, { withFileTypes: true });
+  const slugs: string[][] = [];
+
+  for (const entry of entries) {
+    const name = entry.name;
+    const path = join(dir, name);
+
+    if (entry.isDirectory()) {
+      slugs.push(...(await getMdxSlugs(path, [...prefix, name])));
+      continue;
+    }
+
+    if (!name.endsWith('.mdx')) continue;
+
+    const basename = name.slice(0, -'.mdx'.length);
+    slugs.push(basename === 'index' ? prefix : [...prefix, basename]);
+  }
+
+  return slugs;
+}
+
+const ogPages = (await getMdxSlugs('content/docs')).map((slugs) => ({
+  path: `/og/docs/${[...slugs, 'image.webp'].join('/')}`,
+}));
 
 export default defineConfig({
   server: {
     port: 3000,
+  },
+  ssr: {
+    external: ['@takumi-rs/image-response'],
   },
   optimizeDeps: {
     include: [
@@ -47,6 +78,7 @@ export default defineConfig({
         {
           path: 'llms.txt',
         },
+        ...ogPages,
       ],
     }),
     react(),
