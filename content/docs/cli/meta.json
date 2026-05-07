@@ -1,6 +1,8 @@
 {
   "title": "CLI",
+  "description": "Use SeaSnoke from the terminal.",
   "icon": "Terminal",
+  "root": true,
   "defaultOpen": false,
   "pages": [
     "index",

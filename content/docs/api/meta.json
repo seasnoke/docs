@@ -1,6 +1,8 @@
 {
   "title": "API",
+  "description": "Reference for authentication, tasks, and runs.",
   "icon": "Braces",
+  "root": true,
   "defaultOpen": false,
   "pages": [
     "index",
