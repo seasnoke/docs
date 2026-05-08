@@ -29,6 +29,7 @@ export const Route = createRootRoute({
         rel: 'stylesheet',
         href: 'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Lexend:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,600;0,700;1,700&display=swap',
       },
+      { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
       { rel: 'stylesheet', href: appCss },
     ],
   }),
