@@ -143,4 +143,5 @@ body {
 .seasnoke-logo img {
   width: 9rem;
   height: auto;
+  filter: invert(14%) sepia(100%) saturate(7482%) hue-rotate(239deg) brightness(92%) contrast(143%);
 }
