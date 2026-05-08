@@ -9,17 +9,17 @@
   --color-card-foreground: #0f172a;
   --color-popover: #ffffff;
   --color-popover-foreground: #0f172a;
-  --color-primary: #3b82f6;
+  --color-primary: #0022FF;
   --color-primary-foreground: #f8fafc;
   --color-secondary: #e2e8f0;
   --color-secondary-foreground: #0f172a;
   --color-muted: #f1f5f9;
   --color-muted-foreground: #475569;
-  --color-accent: #dbeafe;
-  --color-accent-foreground: #1e3a8a;
+  --color-accent: #0022FF;
+  --color-accent-foreground: #ffffff;
   --color-border: #cbd5e1;
   --color-input: #cbd5e1;
-  --color-ring: #60a5fa;
+  --color-ring: #0022FF;
 }
 
 :root {
@@ -35,13 +35,13 @@
   --color-fd-card: #ffffff;
   --color-fd-card-foreground: #0f172a;
   --color-fd-border: #cbd5e1;
-  --color-fd-primary: #3b82f6;
+  --color-fd-primary: #0022FF;
   --color-fd-primary-foreground: #f8fafc;
   --color-fd-secondary: #e2e8f0;
   --color-fd-secondary-foreground: #0f172a;
-  --color-fd-accent: #dbeafe;
-  --color-fd-accent-foreground: #1e3a8a;
-  --color-fd-ring: #60a5fa;
+  --color-fd-accent: #0022FF;
+  --color-fd-accent-foreground: #ffffff;
+  --color-fd-ring: #0022FF;
   --color-fd-overlay: rgb(15 23 42 / 0.28);
 }
 
@@ -56,13 +56,13 @@
   --color-fd-card: #07111f;
   --color-fd-card-foreground: #e5edf7;
   --color-fd-border: #1e293b;
-  --color-fd-primary: #3b82f6;
+  --color-fd-primary: #0022FF;
   --color-fd-primary-foreground: #f8fafc;
   --color-fd-secondary: #0f172a;
   --color-fd-secondary-foreground: #dbeafe;
-  --color-fd-accent: #172554;
-  --color-fd-accent-foreground: #dbeafe;
-  --color-fd-ring: #60a5fa;
+  --color-fd-accent: #0022FF;
+  --color-fd-accent-foreground: #ffffff;
+  --color-fd-ring: #0022FF;
   --color-fd-overlay: rgb(0 0 0 / 0.45);
 }
 
@@ -109,7 +109,7 @@ body {
   --tw-prose-links: #2563eb;
   --tw-prose-bold: var(--color-fd-foreground);
   --tw-prose-code: #1d4ed8;
-  --tw-prose-quotes: #1e3a8a;
+  --tw-prose-quotes: #0022FF;
   --tw-prose-hr: var(--color-fd-border);
 }
 
@@ -117,7 +117,7 @@ body {
 .dark [data-radix-scroll-area-viewport] {
   --tw-prose-links: #93c5fd;
   --tw-prose-code: #bfdbfe;
-  --tw-prose-quotes: #dbeafe;
+  --tw-prose-quotes: #0022FF;
 }
 
 :where(h1, h2, h3, h4, h5, h6),
