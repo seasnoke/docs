@@ -1,62 +1,65 @@
 ---
 title: Quick Start
-description: Run your first parallel agent task in under 5 minutes.
+description: Create your first DevBox workspace and review an agent result.
 icon: Play
 ---
 
-## 1. Authenticate
+## 1. Sign In
 
-Log in to your SeaSnoke workspace:
+Open your SeaSnoke workspace in the browser:
 
-```bash
-seasnoke auth login
+<a href="https://app.seasnoke.com">https://app.seasnoke.com</a>
+
+## 2. Connect GitHub
+
+Install the SeaSnoke GitHub App from the project connection flow. SeaSnoke uses that installation to list repositories, read repository context, and open pull requests after review.
+
+For V1, GitHub is the primary repository provider.
+
+## 3. Create a Project
+
+Create a project and attach one or more repositories. A project represents the product or system. A workspace is created from that project when an agent starts working.
+
+Good first projects use a repository that already has clear setup instructions and checks.
+
+## 4. Start a Workspace
+
+Create a task with a narrow outcome, then start the workspace.
+
+```md
+Add tests for the billing date parser.
+
+Requirements:
+- Cover month-end rollover.
+- Cover invalid date input.
+- Run the existing parser test suite.
 ```
 
-## 2. Initialize a Project
+SeaSnoke opens a DevBox workspace, prepares the repository checkout, recreates the environment, and starts the agent thread.
 
-Navigate to your repository and initialize SeaSnoke:
+## 5. Review the Result
 
-```bash
-cd my-project
-seasnoke init
-```
+Open the workspace page to inspect:
 
-## 3. Submit Your First Task
-
-Create a task file and submit it:
-
-```bash
-cat > task.md << 'EOF'
-## Task: Add rate limiting middleware
-
-Implement a Redis-backed rate limiter for the /api/v1/* routes.
-- Use sliding window algorithm
-- Configurable limits per endpoint
-- Return 429 with Retry-After header
-EOF
-
-seasnoke task submit task.md --agents 3
-```
-
-## 4. Watch the Results
-
-Open the dashboard or watch in your terminal:
-
-```bash
-seasnoke runs watch
-# Or open the web dashboard
-seasnoke dashboard
-```
+- agent thread messages
+- console logs
+- environment state
+- changed files and diffs
+- validation output
+- pull request handoff
 
 ```mermaid
 sequenceDiagram
   participant Dev as Developer
-  participant CLI as SeaSnoke CLI
-  participant Agents as Agent Fleet
-  participant Repo as Repository
+  participant App as SeaSnoke App
+  participant Workspace as DevBox Workspace
+  participant Agent
+  participant GitHub
 
-  Dev->>CLI: submit task.md
-  CLI->>Agents: start 3 isolated runs
-  Agents->>Repo: propose validated changes
-  CLI->>Dev: show results and diffs
+  Dev->>App: create task
+  App->>Workspace: open DevBox
+  Workspace->>Agent: run with repo context
+  Agent->>Workspace: edit, validate, summarize
+  Workspace->>GitHub: prepare PR handoff
+  App->>Dev: show diff, logs, and checks
 ```

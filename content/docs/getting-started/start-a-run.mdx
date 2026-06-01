@@ -1,44 +1,39 @@
 ---
-title: Start a Run
-description: Submit a task and review the first generated result.
+title: Start a Workspace
+description: Create a DevBox workspace and review the first generated result.
 icon: Zap
 ---
 
-Submit a task, start a run, and review the generated result.
+Create a task, start a DevBox workspace, and review the generated result.
 
 ## Prerequisites
 
-Before starting a run, ensure you have the following:
+Before starting a workspace, ensure you have the following:
 
-- `seasnoke` CLI installed, version 0.8.2 or later.
-- Authenticated workspace with `seasnoke auth login`.
-- A git repository with at least one branch.
-- A clean working tree on the branch you want SeaSnoke to inspect.
+- Access to `https://app.seasnoke.com`.
+- The SeaSnoke GitHub App installed for the account or organization that owns the repository.
+- A connected project with at least one repository.
+- Repository setup instructions or checks that an agent can discover.
 
-## Connect a Repository
+## Connect Repositories
 
-Use `seasnoke init` once per repository to connect it to your workspace:
+Use the project connection flow to install or refresh the GitHub App, then select repositories for the project. A project can include multiple repositories when the product change spans more than one codebase.
 
-```bash
-cd my-project
-seasnoke init
-
-# Output:
-# [OK] Detected git repository: my-project (main)
-# [OK] Writing .seasnoke/config.toml
-# [OK] Registering workspace: acme-corp
-#
-# Repository connected. Run seasnoke task submit to start.
-```
+SeaSnoke creates exactly the workspace checkouts needed for the task. Users should not need to think in terms of local git worktrees.
 
 ## Configuration
 
-The generated `.seasnoke/config.toml` stores repository defaults.
+Project and workspace configuration describe how the DevBox should prepare and validate the codebase.
 
 ```toml
-[workspace]
+[project]
 name = "acme-corp"
-default_repo = "github.com/acme/api"
+repos = ["github.com/acme/api", "github.com/acme/web"]
+
+[environment]
+setup = "auto"
+snapshot = true
+services = ["postgres", "redis"]
 
 [checks]
 test_runner = "auto"
@@ -52,35 +47,32 @@ require_human_approval = true
 
 ## Verify Setup
 
-Run the built-in diagnostic to confirm your workspace is ready:
+Use the environment panel to confirm the workspace is ready:
 
-```bash
-seasnoke check
+- GitHub App installation is connected.
+- Repositories are synced.
+- Environment setup is ready or queued.
+- Required secrets and environment variables are configured.
+- The expected checks are detected.
 
-# Output:
-# [OK] Workspace: acme-corp (active)
-# [OK] Git: main branch clean, no uncommitted changes
-# [OK] Checks: eslint, jest detected
-#
-# Status: READY
+## First Workspace
+
+Start with a narrow task to verify the workflow:
+
+```md
+Add tests for the billing date parser.
+
+Requirements:
+- Cover valid monthly billing dates.
+- Cover invalid date input.
+- Run the existing parser tests.
 ```
 
-## First Run
-
-Submit a dry-run task to verify the workflow without modifying your code:
-
-```bash
-seasnoke task submit --dry-run "Add tests for the billing date parser"
-
-# Output:
-# [12:01:01] INFO  Task created: task_01hxy
-# [12:01:02] INFO  Run started: run_01hxz
-# [12:01:15] INFO  Checks passed: 12/12 tests
-# [12:01:24] INFO  Candidate ready for review
-```
+SeaSnoke creates a workspace, prepares the DevBox, starts the agent thread, and keeps logs, messages, diffs, and checks attached to that workspace.
 
 ## Next Steps
 
-- **Run a real task** with `seasnoke task submit`.
-- **Review generated changes** in the dashboard.
-- **Integrate CI/CD** using the GitHub Actions integration.
+- **Review generated changes** in the workspace source-control panel.
+- **Retry failed workers** with an additional message when the failure is recoverable.
+- **Configure environment variables** for projects that need secrets or service credentials.
+- **Open a pull request** only after the verifier and human review agree the change is ready.

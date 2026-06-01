@@ -4,6 +4,7 @@
   "defaultOpen": false,
   "pages": [
     "index",
+    "devbox-workspaces",
     "agents",
     "review-graph",
     "workflows",

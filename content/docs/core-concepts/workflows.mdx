@@ -6,15 +6,18 @@ icon: Layers
 
 ## Task Dependencies
 
-Tasks can depend on other tasks. SeaSnoke uses those dependencies to decide what is ready to run and what still needs to wait.
+Tasks, workspaces, and graph threads can depend on earlier work. SeaSnoke uses those dependencies to decide what is ready to run, what can run in parallel, and what still needs to wait.
 
 ```mermaid
 flowchart TD
-  A[Open task] --> B[Prepare data change]
-  A --> C[Update API]
-  B --> D[Run integration tests]
-  C --> D
-  D --> E[Ready for review]
+  A[Open workspace] --> B[Prepare environment]
+  B --> C[Planner]
+  C --> D[Worker: data change]
+  C --> E[Worker: API]
+  D --> F[Reducer]
+  E --> F
+  F --> G[Verifier]
+  G --> H[Ready for review]
 ```
 
 ```yaml
@@ -24,7 +27,7 @@ dependencies:
     optional: true
 ```
 
-Dependencies help teams break larger product work into smaller reviewable tasks without losing ordering. A task that changes a database shape may need to complete before a task that updates an API. A frontend task may wait for the API contract to be selected.
+Dependencies help teams break larger product work into smaller reviewable pieces without losing ordering. A task that changes a database shape may need to complete before a task that updates an API. A frontend worker may wait for the API contract to be selected. A verifier should wait until reducer output exists.
 
 Use dependencies when:
 
@@ -38,7 +41,7 @@ Avoid dependencies when tasks are truly independent. Extra dependency edges slow
 
 ## Workflow States
 
-SeaSnoke workflows move tasks through clear states so teams can see what needs attention.
+SeaSnoke workflows move workspaces and threads through clear states so teams can see what needs attention.
 
 Common states:
 
@@ -46,6 +49,7 @@ Common states:
 - **Ready:** the task has enough context and no blocking dependencies.
 - **Queued:** the task is waiting for a run.
 - **Running:** a run is active.
+- **Preparing environment:** the workspace is installing dependencies, starting services, or restoring a snapshot.
 - **Reviewing:** one or more candidates are ready for inspection.
 - **Blocked:** the task needs human input or an upstream dependency.
 - **Done:** the selected change has moved forward.
@@ -55,11 +59,13 @@ stateDiagram-v2
   [*] --> Draft
   Draft --> Ready
   Ready --> Queued
-  Queued --> Running
+  Queued --> Preparing
+  Preparing --> Running
   Running --> Reviewing
   Reviewing --> Done
   Reviewing --> Ready: request revision
   Running --> Blocked
+  Preparing --> Blocked
   Blocked --> Ready
 ```
 
@@ -76,11 +82,18 @@ retry:
 
 Retries are useful for failures that are likely to clear without changing the task, such as temporary network failures, unavailable package registries, or flaky checks.
 
-Retries are not a substitute for better instructions. If a run fails because the task is ambiguous, the repository setup is missing, or tests require credentials that are not available, update the task or project configuration before retrying.
+Retries are not a substitute for better instructions. If a run fails because the task is ambiguous, the repository setup is missing, or tests require credentials that are not available, update the task, workspace environment, or project configuration before retrying.
+
+For graph-backed work, retries should target the smallest failed unit:
+
+- retry a worker when one slice failed
+- retry the verifier when checks failed after reducer output
+- retry environment setup when dependency installation or service startup failed
+- avoid rerunning successful workers unless their inputs changed
 
 ## Validation Gates
 
-Validation gates define what must pass before a candidate can be selected or moved into a pull request. Gates can be strict for production repositories and lighter for exploratory work.
+Validation gates define what must pass before a candidate can be selected or moved into a pull request. Gates can be strict for production repositories and lighter for exploratory work. Environment gates can also require that services started correctly or that a snapshot was produced.
 
 Example gates:
 
@@ -108,7 +121,7 @@ Make required gates match the risk of the repository. A documentation-only repos
 
 ## Parallel Work
 
-Independent tasks can run at the same time. This is useful when a product change has separate surfaces such as API, CLI, and docs.
+Independent tasks or graph workers can run at the same time. This is useful when a product change has separate surfaces such as API, CLI, frontend, tests, and docs.
 
 Parallel work is a good fit when:
 
@@ -116,8 +129,9 @@ Parallel work is a good fit when:
 - each task has its own validation path
 - one task does not require decisions from another
 - reviewers can evaluate each candidate independently
+- reducer conflicts are unlikely or easy to resolve
 
-Parallel work is a poor fit when several tasks modify the same interfaces at the same time. In that case, create a contract task first, then let dependent tasks build against that decision.
+Parallel work is a poor fit when several workers modify the same interfaces at the same time. In that case, create a contract task first, then let dependent workers build against that decision.
 
 ## Example Product Workflow
 
@@ -125,6 +139,11 @@ The following workflow splits a feature into reviewable pieces:
 
 ```yaml
 tasks:
+  - id: workspace-billing
+    title: Billing workspace
+    repos:
+      - acme/api
+      - acme/web
   - id: task-api-contract
     title: Define task pagination response
   - id: task-api-implementation
@@ -142,7 +161,7 @@ tasks:
       - task-cli-output
 ```
 
-This keeps the contract decision visible, allows API and CLI work to proceed after the contract is selected, and leaves documentation until the behavior is stable.
+This keeps the workspace and contract decision visible, allows API and CLI work to proceed after the contract is selected, and leaves documentation until the behavior is stable.
 
 ## Keeping Workflows Reviewable
 
@@ -151,8 +170,10 @@ The most effective workflows make progress visible without creating large, hard-
 Use these guidelines:
 
 - keep tasks focused on one outcome
+- keep the workspace tied to the repositories needed for that outcome
 - add dependencies only where order matters
 - require validation that matches the repository
+- make environment setup and snapshots visible
 - retry transient failures, not unclear tasks
 - write short review notes when selecting or rejecting a candidate
 - split risky changes before they become difficult to review

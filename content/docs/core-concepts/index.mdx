@@ -6,9 +6,9 @@ icon: Cpu
 
 ## Task-Based Development
 
-SeaSnoke organizes AI coding work around tasks. A task captures the requested change, links it to the right repository, records the generated runs, and keeps validation results attached to the work.
+SeaSnoke organizes AI coding work around DevBox workspaces. A workspace captures the requested change, links it to the right project repositories, records agent threads and graph runs, and keeps environment state, validation results, logs, diffs, and review decisions attached to the work.
 
-A task should describe one reviewable outcome. Good tasks are specific enough for an agent to act on, but small enough that a human can review the result without losing context.
+A task still describes the requested outcome. The workspace is where that task is executed and reviewed. Good tasks are specific enough for an agent to act on, but small enough that a human can review the result without losing context.
 
 Typical tasks include:
 
@@ -19,20 +19,24 @@ Typical tasks include:
 - improving documentation
 - applying a narrow refactor
 
-SeaSnoke keeps the task as the durable unit of work. Runs, candidates, logs, checks, comments, and review decisions all attach back to the task so the team can understand what happened and why.
+SeaSnoke keeps the workspace as the durable work surface. Runs, agent threads, graph nodes, candidates, logs, checks, comments, and review decisions all attach back to the workspace so the team can understand what happened and why.
 
 ```mermaid
 flowchart LR
-  A[Task] --> B[Run]
-  B --> C[Candidate change]
-  C --> D[Checks]
-  C --> E[Review]
-  E --> F[Merge decision]
+  A[Task] --> B[DevBox Workspace]
+  B --> C[Environment]
+  B --> D[Agent Threads]
+  D --> E[Candidate change]
+  E --> F[Checks]
+  E --> G[Review]
+  G --> H[PR handoff]
 ```
 
-## Runs and Candidates
+## DevBox Workspaces, Runs, and Candidates
 
-A run is one attempt to complete a task. A task can have one run or several runs, depending on how your team wants to compare approaches.
+A DevBox workspace is one cloud execution context for a task. It contains one or more repository checkouts, a Docker or MicroVM-backed runtime, environment setup state, logs, agent messages, graph state, and review artifacts.
+
+A run is one attempt inside that workspace. A task can have one run or several runs, depending on how your team wants to compare approaches.
 
 Each run produces a candidate change. A candidate is the proposed code, tests, docs, and notes from that run. SeaSnoke treats candidates as reviewable artifacts rather than automatic commits to the main branch.
 
@@ -43,6 +47,21 @@ This makes it possible to:
 - rerun with clearer instructions
 - keep validation output attached to the exact code it tested
 - select the most appropriate result before opening or updating a pull request
+
+## Environment Context
+
+SeaSnoke workspaces are designed to recreate the environment needed for the code to run. Agents should not only edit files; they should be able to install dependencies, start services, run checks, discover ports, and leave behind enough evidence for a reviewer to understand whether the result actually works.
+
+Environment context can include:
+
+- detected languages and package managers
+- setup commands and dependency installation
+- service dependencies such as Postgres or Redis
+- environment variables and secret requirements
+- preview ports and local app URLs
+- snapshots that can be reused for later runs
+
+This is the main difference between a local git worktree model and SeaSnoke's DevBox model. SeaSnoke is responsible for the execution environment as well as the code diff.
 
 ## Repository Context
 

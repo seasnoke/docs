@@ -6,30 +6,46 @@ icon: Bot
 
 ## What Agents Do
 
-Agents turn task instructions into candidate code changes. SeaSnoke keeps their output tied to runs, checks, logs, and review decisions so your team can evaluate the work without switching tools.
+Agents turn task instructions into candidate code changes inside DevBox workspaces. SeaSnoke keeps their output tied to workspace threads, runtime logs, checks, diffs, and review decisions so your team can evaluate the work without switching tools.
 
-Agents operate inside the boundaries of the task. They read the relevant repository context, make a scoped change, and report what they changed. The output is a candidate for review, not an automatic production change.
+Agents operate inside the boundaries of the workspace. They read the relevant repository context, work inside an isolated checkout, recreate enough of the environment to validate their changes, and report what they changed. The output is a candidate for review, not an automatic production change.
 
 An agent run usually has four visible phases:
 
 1. **Context gathering:** the agent reads project files, instructions, tests, and related code.
-2. **Implementation:** the agent edits the repository to satisfy the task.
-3. **Validation:** the agent runs the available checks or records why a check could not run.
-4. **Summary:** the agent explains the important files changed, tradeoffs, and remaining risks.
+2. **Environment preparation:** the workspace installs dependencies, starts services, or restores a snapshot when available.
+3. **Implementation:** the agent edits the repository to satisfy the task.
+4. **Validation:** the agent runs the available checks or records why a check could not run.
+5. **Summary:** the agent explains the important files changed, tradeoffs, and remaining risks.
 
 ```mermaid
 sequenceDiagram
   participant User
   participant SeaSnoke
+  participant Workspace
   participant Agent
   participant Review
 
   User->>SeaSnoke: Create task
-  SeaSnoke->>Agent: Start run with repository context
-  Agent->>Agent: Read, edit, and validate
-  Agent->>SeaSnoke: Return candidate change
+  SeaSnoke->>Workspace: Open DevBox workspace
+  Workspace->>Agent: Start thread with repository context
+  Agent->>Workspace: Read, edit, validate, and summarize
+  Workspace->>SeaSnoke: Return candidate change and logs
   SeaSnoke->>Review: Present diff, checks, and notes
 ```
+
+## Threads, Not Just Runs
+
+In larger work, SeaSnoke presents agents as workspace threads. A thread can be a single linear coding session, or one role inside a graph-backed task.
+
+Common thread roles include:
+
+- **Planner:** breaks a large request into independently reviewable slices.
+- **Worker:** implements one slice of the task in its own isolated checkout.
+- **Reducer:** combines compatible worker outputs into one candidate.
+- **Verifier:** inspects the combined result, runs checks, and can request fixes.
+
+Each thread should have its own conversation, logs, files touched, status, and diff artifact. This keeps parallel agent work understandable without forcing every worker to push a visible branch.
 
 ## Writing Effective Instructions
 
@@ -59,6 +75,8 @@ Requirements:
 
 - **Diffs** show exactly what changed.
 - **Checks** show whether tests and quality gates passed.
+- **Console logs** show setup, agent, and verification output.
+- **Thread messages** show the agent conversation and decisions.
 - **Notes** summarize the reasoning and tradeoffs behind a candidate.
 - **Status** makes it clear whether a run is queued, active, completed, or blocked.
 

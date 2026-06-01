@@ -4,33 +4,35 @@ description: What SeaSnoke is and how AI coding agents fit into your workflow.
 icon: BookOpen
 ---
 
-SeaSnoke is an AI coding platform for assigning software tasks, comparing agent-generated changes, and merging only validated work.
+SeaSnoke is an AI coding platform for giving agents cloud DevBox workspaces, letting them rebuild project environments, and moving only reviewed changes into your repositories.
 
 ## What is SeaSnoke?
 
-SeaSnoke helps teams hand well-scoped work to coding agents without losing review control. You submit a task, SeaSnoke prepares candidate changes, runs validation, and presents the strongest results for human review.
+SeaSnoke helps teams hand real software work to coding agents without losing review control. You connect repositories, open a DevBox workspace, let agents work in isolated runtime environments, and review the resulting diffs, logs, checks, and pull requests in one place.
 
-Think of it as a workbench for AI-assisted development: tasks, runs, diffs, checks, and review decisions in one place.
+Think of it as a cloud-native agent workbench: projects, repos, DevBox sessions, agent threads, environment snapshots, diffs, checks, and review decisions in one place.
 
 ## Key Features
 
-- **Task-Based Workflow**: Describe what needs to change and track it from assignment through review.
-- **Candidate Comparison**: Compare generated approaches by tests, diffs, and review status.
-- **Protected Execution**: Agent work runs away from production systems and is reviewed before merge.
-- **Validated Merge Flow**: Only changes that pass configured checks are presented as merge candidates.
+- **DevBox Workspaces**: Give each task a durable workspace with repository context, runtime state, logs, and review artifacts.
+- **Reproducible Environments**: Recreate project dependencies and services, then snapshot successful environments for future runs.
+- **Agent Threads and Graphs**: Split large tasks into planner, worker, reducer, and verifier threads when parallel work is useful.
+- **Reviewable Diffs**: Inspect files, console output, checks, summaries, and pull request handoff before anything lands.
+- **Protected Execution**: Run agent work away from production systems using the configured Docker or MicroVM backend.
 
 ## How It Works
 
 ```mermaid
 flowchart LR
-  A[Submit task] --> B[Start run]
-  B --> C[Prepare candidate changes]
-  C --> D[Validate results]
-  D --> E[Review candidate]
-  E --> F[Merge to repo]
+  A[Connect repositories] --> B[Open DevBox workspace]
+  B --> C[Recreate environment]
+  C --> D[Run agent threads]
+  D --> E[Collect diffs and checks]
+  E --> F[Review and open PR]
 ```
 
-1. **Submit a Task**: Describe what you want built in natural language. SeaSnoke parses requirements and generates a task specification.
-2. **Agents Prepare Changes**: SeaSnoke creates one or more candidate implementations for the task.
-3. **Validation Runs**: Tests, linting, and configured checks run against each candidate.
-4. **Validation & Merge**: Successful agent outputs are validated, compared, and presented for your final review and merge.
+1. **Connect Repositories**: Link GitHub repositories to a project so SeaSnoke has the code and review target.
+2. **Open a DevBox Workspace**: SeaSnoke prepares an isolated checkout for the task, including runtime and environment metadata.
+3. **Run Agent Threads**: A single agent can work linearly, or a larger task can split into planner, worker, reducer, and verifier threads.
+4. **Validate the Result**: Tests, linting, setup commands, and verifier feedback attach to the workspace.
+5. **Review and Handoff**: Review the final diff, inspect logs and decisions, then open or update a pull request.
