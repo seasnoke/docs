@@ -7,7 +7,7 @@ export function baseOptions(): BaseLayoutProps {
     nav: {
       title: (
         <span className="seasnoke-logo" aria-label={appName}>
-          SeaSnoke
+          seasnoke
         </span>
       ),
     },

@@ -75,13 +75,8 @@ html > body[data-scroll-locked] {
   --removed-body-scroll-bar-size: 0px !important;
 }
 
-#nd-docs-layout {
-  --fd-docs-height: 100svh;
-  min-height: 100svh;
-}
-
 body {
-  min-height: 100vh;
+  min-height: 100dvh;
   background:
     radial-gradient(circle at top left, rgb(59 130 246 / 0.12), transparent 28rem),
     linear-gradient(180deg, #f8fafc 0%, #eef4ff 54%, #f8fafc 100%);
