@@ -84,6 +84,17 @@ body {
   font-family: 'Lexend', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
+@media (min-width: 768px) {
+  #nd-docs-layout [data-sidebar-placeholder] {
+    position: fixed !important;
+    inset-block-start: var(--fd-docs-row-1, 0px) !important;
+    inset-block-end: 0 !important;
+    inset-inline-start: 0 !important;
+    width: calc(max((100vw - 97rem) / 2, 0px) + var(--fd-sidebar-width, 268px)) !important;
+    height: auto !important;
+  }
+}
+
 .dark body {
   background:
     radial-gradient(circle at top left, rgb(37 99 235 / 0.16), transparent 28rem),
