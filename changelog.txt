@@ -1,0 +1,5 @@
+0.1.1 - 2026-06-05
+- add site footer to docs pages and not-found layout with product, app, github, and contact links
+
+0.1.0 - initial release
+- fumadocs docs site for seasnoke

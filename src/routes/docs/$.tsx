@@ -9,8 +9,11 @@ import {
   DocsPage,
   DocsTitle,
   MarkdownCopyButton,
+  PageFooter,
   ViewOptionsPopover,
+  type FooterProps,
 } from 'fumadocs-ui/layouts/docs/page';
+import { SiteFooter } from '@/components/site-footer';
 import { baseOptions, SidebarFooterControls } from '@/lib/layout.shared';
 import { gitConfig } from '@/lib/shared';
 import { staticFunctionMiddleware } from '@tanstack/start-static-server-functions';
@@ -76,6 +79,15 @@ const loader = createServerFn({
     };
   });
 
+function DocsPageFooter(props: FooterProps) {
+  return (
+    <>
+      <PageFooter {...props} />
+      <SiteFooter />
+    </>
+  );
+}
+
 const clientLoader = browserCollections.docs.createClientLoader({
   component(
     { toc, frontmatter, default: MDX },
@@ -89,7 +101,7 @@ const clientLoader = browserCollections.docs.createClientLoader({
     },
   ) {
     return (
-      <DocsPage toc={toc}>
+      <DocsPage toc={toc} slots={{ footer: DocsPageFooter }}>
         <DocsTitle>{frontmatter.title}</DocsTitle>
         <DocsDescription>{frontmatter.description}</DocsDescription>
         <div className="flex flex-row gap-2 items-center border-b -mt-4 pb-6">

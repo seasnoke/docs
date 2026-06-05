@@ -1,0 +1,15 @@
+current context:
+- docs site uses tanstack start + fumadocs
+- site footer lives in src/components/site-footer.tsx
+- footer renders below page prev/next navigation on docs pages and on not-found pages
+
+pending tasks:
+- none
+
+important decisions:
+- footer links mirror main seasnoke site: product, app, github, contact
+- footer styling follows web footer-clean layout adapted to fumadocs theme tokens
+
+architectural notes:
+- docs page footer slot wraps fumadocs pagefooter with sitefooter
+- sidebar footer still holds github link and theme switch
