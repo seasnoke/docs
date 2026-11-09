@@ -9,16 +9,16 @@ import {
   DocsPage,
   DocsTitle,
   MarkdownCopyButton,
-  PageFooter,
   ViewOptionsPopover,
-  type FooterProps,
 } from 'fumadocs-ui/layouts/docs/page';
+import { PageNav } from '@/components/page-nav';
 import { SiteFooter } from '@/components/site-footer';
 import { baseOptions, SidebarFooterControls } from '@/lib/layout.shared';
 import { gitConfig } from '@/lib/shared';
 import { staticFunctionMiddleware } from '@tanstack/start-static-server-functions';
 import { useFumadocsLoader } from 'fumadocs-core/source/client';
 import { Suspense } from 'react';
+import { Pencil } from 'lucide-react';
 import { useMDXComponents } from '@/components/mdx';
 
 type PageData = {
@@ -79,10 +79,10 @@ const loader = createServerFn({
     };
   });
 
-function DocsPageFooter(props: FooterProps) {
+function DocsPageFooter() {
   return (
     <>
-      <PageFooter {...props} />
+      <PageNav />
       <SiteFooter />
     </>
   );
@@ -104,7 +104,7 @@ const clientLoader = browserCollections.docs.createClientLoader({
       <DocsPage toc={toc} slots={{ footer: DocsPageFooter }}>
         <DocsTitle>{frontmatter.title}</DocsTitle>
         <DocsDescription>{frontmatter.description}</DocsDescription>
-        <div className="flex flex-row gap-2 items-center border-b -mt-4 pb-6">
+        <div className="ss-page-actions">
           <MarkdownCopyButton markdownUrl={markdownUrl} />
           <ViewOptionsPopover
             markdownUrl={markdownUrl}
@@ -114,8 +114,8 @@ const clientLoader = browserCollections.docs.createClientLoader({
             href={`https://github.com/${gitConfig.user}/${gitConfig.repo}/edit/${gitConfig.branch}/content/docs/${path}`}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex h-8 items-center rounded-md border border-fd-border px-3 text-xs font-medium text-fd-muted-foreground transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground"
           >
+            <Pencil aria-hidden />
             Edit this page
           </a>
         </div>

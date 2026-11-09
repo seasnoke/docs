@@ -23,11 +23,13 @@ export const Route = createRootRoute({
       },
     ],
     links: [
-      { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
+      { rel: 'preconnect', href: 'https://cdn.jsdelivr.net', crossOrigin: 'anonymous' },
       {
-        rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Lexend:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,600;0,700;1,700&display=swap',
+        rel: 'preload',
+        as: 'font',
+        type: 'font/woff2',
+        crossOrigin: 'anonymous',
+        href: 'https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-Variable.woff2',
       },
       { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
       { rel: 'stylesheet', href: appCss },
@@ -38,7 +40,7 @@ export const Route = createRootRoute({
 
 function RootComponent() {
   return (
-    <html className="dark" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
@@ -46,7 +48,7 @@ function RootComponent() {
         <RootProvider
           search={{ SearchDialog }}
           theme={{
-            defaultTheme: 'dark',
+            defaultTheme: 'light',
             enableSystem: false,
           }}
         >
